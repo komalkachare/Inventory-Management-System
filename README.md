@@ -87,6 +87,6 @@ The main goal of this project is to help businesses easily and efficiently manag
 |supplier_address|Varchar(50)|Address of Supplier
 |contact_no|INT|Contact Number of Supplier
 |brand_id|INT|Brand Id Number of Product
-## Screenshots
+
 
 
