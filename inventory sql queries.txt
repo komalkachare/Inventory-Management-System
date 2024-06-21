@@ -1,0 +1,193 @@
+create database inventory;
+
+use inventory;
+
+--create table tblcustomer
+
+create table tblcustomer
+(customer_id int NOT NULL PRIMARY KEY,
+ First_name varchar(70) NOT NULL,
+Last_name varchar(60) NOT NULL,
+Address Varchar(30) NOT NULL,
+Contact_No Int);
+
+--create table employee
+
+create table employee
+( Employee_id int NOT NULL PRIMARY KEY,
+First_Name varchar(50) NOT NULL,
+Last_name varchar(80) NOT NULL,
+Addresss varchar(50) NOT NULL,
+Contact_No int,
+position varchar(50),
+salary int,
+city varchar(50));
+
+-- create table cash_order
+
+create table cash_order
+(CashOrder_id int NOT NULL PRIMARY KEY,
+invoice_no varchar(50),
+brand_name varchar(50) NOT NULL,
+Model varchar(50) NOT NULL,
+serial_no int,
+Price int,
+unit_type varchar(50) NOT NULL,
+customer_id varchar(50));
+
+-- create table charge_order
+ create table charge_order
+( Chargeorder_id int NOT NULL PRIMARY KEY,
+invoice_no int NOT NULL,
+Brand_Name varchar(50),
+Unit_type varchar(50),
+Model varchar(50) NOT NULL,
+serial_no int NOT NULL,
+price decimal(10,2),
+down_payment varchar(70));
+
+-- create table Product
+create table Product
+( Product_id int NOT NULL PRIMARY KEY,
+Date_Recieved DATE,
+Brand_id INT,
+Model VARCHAR(45),
+serial_no INT,
+Availiblity VARCHAR(45) NOT NULL,
+data_sold VARCHAR(45) NOT NULL,
+customer_id INT,
+unit_type VARCHAR(45));
+
+-- create table supplier
+create table supplier
+(supplier_id  INT NOT NULL PRIMARY KEY,
+supplier_name VARCHAR(48) NOT NULL,
+supplier_address varchar(80) NOT NULL,
+contact_no int NOT NULL,
+brand_id int));
+
+-- create table order
+create table order
+(order_id int NOT NULL PRIMARY KEY,
+customer_id int NOT NULL,
+employee_name varchar(60),
+invoice_no int,
+total_price decimal(10,2),
+brand_id int));
+
+--------------question--------------
+
+-- describe the structure of  customer table
+desc tblcustomer;
+
+-- Show the records of the customer table
+select * from tblcustomer;
+
+-- Add one salary column to the employee table
+alter table employee add column salary decimal(10,3);
+
+--Change the datatype of salary column
+alter table employee modify column salary int;
+
+--to fetch unique model with the customer_id from product table  
+select distinct model,customer_id from product;
+
+-- write a query to fetch brand_name and model whose price greater than 200 
+select brand_name,model,price from cash_order where price>200;
+
+--write a query to fetch all records whose brand_name baby ruth and model food beverages
+select * from cash_order where 
+brand_name="Baby Ruth" and model="Food Beverages";
+
+-- write a query to fetch brand name and model whose range in between 300 to 600
+select brand_name,model from cash_order where price between 300 and 600;
+
+-- to fetch employee name start with k
+select * from employee where first_name like 'k%';
+
+-- to fetch the customer_id whose not using cash method 
+select customer_id from product where not unit_type ='cash';
+
+-- to fetch all employee details whose city new mumbai or salary greter than 55000
+select * from employee where city="new mumbai" or salary>55000;
+
+-- display brand_name and model whose price between 500 and 900
+select brand_name,model,price from cash_order where price not between 500  and 900;
+
+-- reterive model name whose price 900,1000,2000
+select model,price from cash_order where price in(900,1000,2000);
+
+-- to fetch top most product
+select * from product limit 5;
+
+-- to fetch all product details in descending order 
+select * from product order by model desc limit 5;
+
+---- write a query to join fristname and lastname of the customer
+select concat(first_name," ",last_name)from tblcustomer;
+
+-- to fetch all the brand name in upper case
+select upper(brand_name) from cash_order; 
+
+-- to fetch all model name in lower case
+select lower(model) from cash_order;
+
+-- write a query to replace food beverges model to food items
+select replace("food beverges","beverges","item") from cash_order;
+
+-- Display price after rounding off to zero decimal places.
+select price,ceil(price) from charge_order;
+
+-- Display monthname , dayname, productid when product_recieved
+select product_id,date_recieved,monthname(date_recieved),dayname(date_recieved) from product;
+
+-- write a query to fetch maximum available Product
+select max(availiblity) from product;
+
+-- To fetch how many brands Available in stores
+select count(brand_name) as brand_name from cash_order;
+
+-- To fetch the second highest salary of the employee
+select max(salary) from employee where salary<(select max(salary)from employee);
+
+-- Display customerid with their name whose pursches branded product 
+select tblcustomer.customer_id,product.model,tblcustomer.first_name from tblcustomer
+inner join product on tblcustomer.customer_id=product.customer_id;
+
+-- Create View
+reate view viewdetailed as select * from cash_order
+where price>500;
+select * from viewdetailed;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
